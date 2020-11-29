@@ -30,6 +30,7 @@ public class UserController{
     @PostMapping(value="/addUser")
     @ResponseBody
     public Msg addUser(User user) {
+        int initNum = userService.getMaxUserId() + 1;
         userService.saveUser(user);
         return null;
     }

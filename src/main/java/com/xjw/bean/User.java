@@ -1,6 +1,6 @@
 package com.xjw.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class User {
     private Integer uid;
@@ -9,9 +9,9 @@ public class User {
 
     private String addr;
 
-    private Timestamp createtime;
+    private Date createtime;
 
-    public User(Integer uid, String uname, String addr, Timestamp createtime) {
+    public User(Integer uid, String uname, String addr, Date createtime) {
         this.uid = uid;
         this.uname = uname;
         this.addr = addr;
@@ -42,11 +42,11 @@ public class User {
         this.addr = addr == null ? null : addr.trim();
     }
 
-    public Timestamp getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
-    public void setCreatetime(Timestamp createtime) {
+
+    public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
-
 }

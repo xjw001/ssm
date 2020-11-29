@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         userMapper.insert(user);
     }
+
+    @Override
+    public int getMaxUserId() {
+        return userMapper.getMaxUserId();
+    }
 }

@@ -7,6 +7,15 @@
     <result column="addr" jdbcType="VARCHAR" property="addr" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
+  <sql id="Base_Column_List">
+    uid, uname, addr, createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tusers
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tusers
     where uid = #{uid,jdbcType=INTEGER}
@@ -17,6 +26,58 @@
     values (#{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP})
   </insert>
+  <insert id="insertSelective" parameterType="com.xjw.bean.User">
+    insert into tusers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="uname != null">
+        uname,
+      </if>
+      <if test="addr != null">
+        addr,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjw.bean.User">
+    update tusers
+    <set>
+      <if test="uname != null">
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap" fetchSize="1000">
+    select uid, uname, addr, createtime
+    from tusers
+  </select>
+
   <update id="updateByPrimaryKey" parameterType="com.xjw.bean.User">
     update tusers
     set uname = #{uname,jdbcType=VARCHAR},
@@ -24,15 +85,6 @@
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where uid = #{uid,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select uid, uname, addr, createtime
-    from tusers
-    where uid = #{uid,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" fetchSize="1000">
-    select uid, uname, addr, createtime
-    from tusers
-  </select>
 
   <select id="getMaxUserId" resultType="java.lang.Integer">
     select max(uid) from tusers
