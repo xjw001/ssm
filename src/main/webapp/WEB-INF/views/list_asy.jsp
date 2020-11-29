@@ -118,6 +118,7 @@
         </div>
     </div>
 <script type="text/javascript">
+    var totalRecord;
     $(function(){
         to_page(1);
     });
@@ -147,7 +148,7 @@
             var uid = $("<td></td>").append(item.uid);
             var uname = $("<td></td>").append(item.uname);
             var uaddr = $("<td></td>").append(item.addr);
-            var uCreatetime = $("<td></td>").append(item.createtime);
+            var uCreatetime = $("<td></td>").append(timestampToTime(item.createtime));
             var optBtn = $("<td></td>");
             var addBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
             var delBtn = $("<button></button>").addClass("btn btn-danger btn-sm").append($("<span></span>").addClass("glyphicon glyphicon-trash")).append("删除");
@@ -168,6 +169,7 @@
         var pages = pageInfo.pages;
         var total = pageInfo.total;
         $("#page_info_area").append("当前第"+pageNum+"页，总共"+pages+"页，总共"+total+"记录");
+        totalRecord = total;
     }
 
     function build_nav(result) {
@@ -228,10 +230,18 @@
     });
 
     $("#btn_save").click(function () {
-
+        saveBaseInfo();
     });
     function saveBaseInfo() {
-
+        $.ajax({
+            url:"${APP_PATH}/user/addUser",
+            type:"POST",
+            data:$("#userAddModal form").serialize(),
+            success:function (result) {
+                $("#userAddModal").modal('hide');
+                to_page(totalRecord);
+            }
+        });
     }
 
     //查询部门信息
@@ -240,11 +250,25 @@
             url:"${APP_PATH}/depts",
             type:"GET",
             success:function (result) {
-                console.log(result);
-                //$("#userAddModal select").append();
+
             }
         });
     }
+
+    function timestampToTime(timestamp) {
+        if(!timestamp){
+            return 0;
+        }
+        var time = new Date(timestamp);
+        var y = time.getFullYear();
+        var m = time.getMonth()+1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    }
+    function add0(m){return m<10?'0'+m:m }
 </script>
 </body>
 </html>

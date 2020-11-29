@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,16 @@ public class UserController{
     @PostMapping(value="/addUser")
     @ResponseBody
     public Msg addUser(User user) {
-        int initNum = userService.getMaxUserId() + 1;
-        userService.saveUser(user);
-        return null;
+        try {
+            int ndexNum = userService.getMaxUserId() + 1;
+            user.setUid(ndexNum);
+            user.setCreatetime(new Timestamp(System.currentTimeMillis()));
+            userService.saveUser(user);
+            return Msg.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
     }
 
     /**

@@ -55,8 +55,8 @@ public class SpringTest {
                 } else {
                     addr = i + "温州市瑞安塘下街道";
                 }
-               // Timestamp time1 = new Timestamp(System.currentTimeMillis());
-                userMapper.insert(new User(i, username, addr, new Date()));
+                Timestamp time1 = new Timestamp(System.currentTimeMillis());
+                userMapper.insert(new User(i, username, addr, time1));
             }
             long endTime = System.currentTimeMillis();
             System.out.println("num:"+num+","+Thread.currentThread().getName()+"耗时(ms):" + (endTime - starttime));

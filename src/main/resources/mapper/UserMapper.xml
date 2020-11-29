@@ -76,6 +76,7 @@
   <select id="selectAll" resultMap="BaseResultMap" fetchSize="1000">
     select uid, uname, addr, createtime
     from tusers
+    order by createtime desc
   </select>
 
   <update id="updateByPrimaryKey" parameterType="com.xjw.bean.User">
