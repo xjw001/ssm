@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjw.dao.DeptMapper">
+  <resultMap id="BaseResultMap" type="com.xjw.bean.Dept">
+    <id column="deptid" jdbcType="INTEGER" property="deptid" />
+    <result column="deptname" jdbcType="VARCHAR" property="deptname" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dept
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjw.bean.Dept">
+    insert into dept (deptid, deptname)
+    values (#{deptid,jdbcType=INTEGER}, #{deptname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xjw.bean.Dept">
+    update dept
+    set deptname = #{deptname,jdbcType=VARCHAR}
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select deptid, deptname
+    from dept
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select deptid, deptname
+    from dept
+  </select>
+</mapper>
